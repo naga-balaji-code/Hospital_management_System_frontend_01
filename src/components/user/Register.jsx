@@ -6,9 +6,13 @@ import { RiLockPasswordLine } from "react-icons/ri";
 import { MdEventRepeat } from "react-icons/md";
 import {validatePassword} from "val-pass"
 import toast from 'react-hot-toast';
+import axios from 'axios';
+import empServices from '../../service/empServices';
+import { useNavigate } from 'react-router-dom';
 
 
 const Register = () => {
+  const navigate=useNavigate()
   const [formData,setFormData]=useState({
     userName:"",
     password:"",
@@ -44,9 +48,20 @@ const Register = () => {
     if(!matched){
       toast.error("passsword and confirm password did not match")
   return
-    }
- console.log(formData);
- 
+    };
+(async()=>{
+let data=await empServices.regiUser(formData)
+try {
+  if(data.status==201){
+  toast.success("Registerd successfully")
+  navigate("/login")
+}else{
+  toast.error("Something went wrong")
+}
+} catch (error) {
+  toast.error("Something went wrong")
+}
+})()
    
   }
 
@@ -97,7 +112,7 @@ const Register = () => {
 
         
         <div className='border-2  w-full flex justify-center items-center px-3 rounded-sm bg-black hover:bg-[#555] active:bg-lime-500 active:scale-[0.9]'>
-         <button className='h-10 text-white font-bold text-md tracking-widest w-full'>Click</button>
+         <button className='h-10 text-white font-bold text-md tracking-widest w-full outline-0'>Click</button>
         </div>
       </form>
     </div>
