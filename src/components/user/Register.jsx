@@ -54,7 +54,7 @@ let data=await empServices.regiUser(formData)
 try {
   if(data.status==201){
   toast.success("Registerd successfully")
-  navigate("/login")
+  navigate("/")
 }else{
   toast.error("Something went wrong")
 }

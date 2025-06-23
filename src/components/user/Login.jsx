@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import { MdAlternateEmail } from 'react-icons/md'
 import { RiLockPasswordLine } from 'react-icons/ri'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import empServices from '../../service/empServices'
+import toast from 'react-hot-toast'
 
 const Login = () => {
     const navigate=useNavigate()
@@ -27,21 +29,21 @@ const Login = () => {
       return
     }
     
-    console.log(formData);
+    // console.log(formData);
     
-// (async()=>{
-// let data=await empServices.regiUser(formData)
-// try {
-//   if(data.status==201){
-//   toast.success("Registerd successfully")
-//   navigate("/login")
-// }else{
-//   toast.error("Something went wrong")
-// }
-// } catch (error) {
-//   toast.error("Something went wrong")
-// }
-// })()
+(async()=>{
+let data=await empServices.loginUser(formData)
+try {
+  if(data.status==200){
+  toast.success("Login successfully")
+  navigate("/home")
+}else{
+  toast.error(`${data.response.data.message}`)
+}
+} catch (error) {
+  toast.error("Something went wrong")
+}
+})()
    
   }
   return (
@@ -68,6 +70,8 @@ const Login = () => {
            <div className='border-2  w-full flex justify-center items-center px-3 rounded-sm bg-black hover:bg-[#555] active:bg-lime-500 active:scale-[0.9]'>
             <button className='h-10 text-white font-bold text-md tracking-widest w-full outline-0'>Click</button>
            </div>
+         <div className='hover:underline'><Link to="register">Click Here to Register</Link></div>
+
          </form>
        </div>
   )
