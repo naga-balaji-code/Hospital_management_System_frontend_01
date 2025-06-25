@@ -23,16 +23,16 @@ const NavBar = () => {
         </div>
 
         <div className={`max-sm:hidden${show?'block':""}`}>
-            <NavLink to="/home">Home</NavLink>
+            <NavLink to="/home" className={({isActive})=>isActive?"bg-amber-50 text-black p-2 rounded-sm":""} end>Home</NavLink>
         </div>
         <div className={`max-sm:hidden${show?'block':""}`}>
-            <NavLink to="addBills">Add Bills</NavLink>
+            <NavLink  to="addBills" className={({isActive})=>isActive?"bg-amber-50 text-black p-2 rounded-sm":""}>Add Bills</NavLink>
         </div>
         <div className={`max-sm:hidden${show?'block':""}`}>
-            <NavLink to="filter">Filter Bills</NavLink>
+            <NavLink to="filter" className={({isActive})=>isActive?"bg-amber-50 text-black p-2 rounded-sm":""}>Filter Bills</NavLink>
         </div>
         <div className={`max-sm:hidden${show?'block':""}`}>
-            <NavLink to="about">About</NavLink>
+            <NavLink to="about" className={({isActive})=>isActive?"bg-amber-50 text-black p-2 rounded-sm":""}>About</NavLink>
         </div>
 
   
