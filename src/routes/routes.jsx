@@ -31,7 +31,7 @@ let routes=createBrowserRouter([
             },{
                 path:"filter",
                 element:<FilterBills></FilterBills>
-            }
+            },
         ]
     }
 ])
