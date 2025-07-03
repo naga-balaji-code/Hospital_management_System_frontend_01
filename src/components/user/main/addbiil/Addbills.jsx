@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import BillItems from '../../../bill/BillItems'
 
 const Addbills = () => {
   const [bill,setBill]=useState({
@@ -11,14 +12,24 @@ const Addbills = () => {
     GSTNo:"",
     clientBankName:""
   })
+  const [items,setItems]=useState([])
   const handelChange=(e)=>{
     let {name,value}=e.target
     setBill((preVal)=>({...preVal,[name]:value}))
+  }
+  const  handelClick=e=>{
+    let newObj={
+      id:Date.now()
+    }
+   setItems((preVal)=>([...preVal,newObj])) 
   }
   const handelSubmit=(e)=>{
     e.preventDefault()
     console.log(bill);
     
+  }
+  const removeElement=(id)=>{
+setItems(items.filter((val)=>val.id!=id))
   }
   return (
     <div className='bg-[#efefef] size-full flex justify-center items-center'>
@@ -79,8 +90,17 @@ const Addbills = () => {
         
             </div>
     
-   
-            
+          {
+            items.map((val)=><BillItems 
+            key={val.id}
+            removeElement={removeElement}
+            val={val}
+            ></BillItems>)
+          }          
+            <div className='border-2  w-full flex justify-center items-center px-3 rounded-sm bg-black hover:bg-[#555] active:bg-lime-500 active:scale-[0.9]'>
+             <button className='h-10 text-white font-bold text-md tracking-widest w-full outline-0' type='button' onClick={handelClick}>Click to Add Items</button>
+            </div>
+
             <div className='border-2  w-full flex justify-center items-center px-3 rounded-sm bg-black hover:bg-[#555] active:bg-lime-500 active:scale-[0.9]'>
              <button className='h-10 text-white font-bold text-md tracking-widest w-full outline-0'>Click</button>
             </div>

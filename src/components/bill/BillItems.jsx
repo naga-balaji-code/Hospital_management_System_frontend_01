@@ -5,7 +5,8 @@ import { GiPriceTag } from "react-icons/gi";
 import { PiSealPercentLight } from "react-icons/pi";
 import { PiSealPercentThin } from "react-icons/pi";
 import { HiDocumentRemove } from "react-icons/hi";
-const BillItems = () => {
+const BillItems = ({removeElement,val}) => {
+// console.log(removeElement,val);
 
 
   return (
@@ -13,7 +14,9 @@ const BillItems = () => {
       <div className='w-full flex justify-end items-center py-1 px-2 gap-3.5'>
         <div
           className='flex items-center gap-2 bg-red-400 px-4 py-1 rounded-xl hover:bg-red-600 text-amber-200 hover:text-amber-100 hover:font-medium cursor-pointer'
-          
+          onClick={()=>{
+            removeElement(val.id)
+          }}
         >
           <div>Remove Item</div>
           <HiDocumentRemove />
