@@ -40,8 +40,8 @@ const Addbills = () => {
 
       // console.log(base,cgst,sgst,acc);
       
-      return base+cgst+sgst
-    })
+      return acc+base+cgst+sgst
+    },0)
     let payload={
       companyName,
       workCompletionDate,
@@ -58,7 +58,7 @@ const Addbills = () => {
 
   }
 
-  // console.log(items);
+  // console.log(new Date().toISOString().split("T")[0]);
   
   const removeElement=(id)=>{
 setItems(items.filter((val)=>val.id!=id))
@@ -111,7 +111,9 @@ setItems(items.filter((val)=>val.id!=id))
 
                
             <div className='border-2  w-full flex justify-center items-center px-3 rounded-sm'>
-              <input type="date" name="workCompletionDate" placeholder='Enter Work Completion Date' className='w-full outline-none px-4 h-10' onChange={handelChange}/>
+              <input type="date" name="workCompletionDate" placeholder='Enter Work Completion Date' className='w-full outline-none px-4 h-10' onChange={handelChange}
+              max={new Date().toISOString().split("T")[0]}
+              />
         
             </div>
 
