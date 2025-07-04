@@ -19,17 +19,70 @@ const Addbills = () => {
   }
   const  handelClick=e=>{
     let newObj={
-      id:Date.now()
+      id:Date.now(),
+      description:"",
+      quantity:"",
+      rate:"",
+      cgstPercent:"",
+      sgstPercent:""
     }
    setItems((preVal)=>([...preVal,newObj])) 
   }
   const handelSubmit=(e)=>{
     e.preventDefault()
-    console.log(bill);
+    // console.log(bill);
+    // console.log(items);
+    let {companyName,workCompletionDate,PoNo,address,PAN,GSTNo,clientBankName}=bill
+    let totalAmount=items.reduce((acc,val)=>{
+      const base=parseInt(val.amount)
+      const cgst=base*parseInt(val.cgstPercent)/100
+      const sgst=base*parseInt(val.sgstPercent)/100
+
+      // console.log(base,cgst,sgst,acc);
+      
+      return base+cgst+sgst
+    })
+    let payload={
+      companyName,
+      workCompletionDate,
+      PoNo,
+      address,
+      PAN,
+      GSTNo,
+      clientBankName,
+      items,
+      totalAmount
+    }
+    console.log(payload);
     
+
   }
+
+  // console.log(items);
+  
   const removeElement=(id)=>{
 setItems(items.filter((val)=>val.id!=id))
+  }
+
+  const updateElements=(id,name,value)=>{
+    // console.log(id,name,value);
+    
+    setItems((preVal)=>{
+     return preVal.map((val)=>{
+        if(val.id==id){
+      
+          
+          const updateItems={
+            ...val,[name]:value
+          }
+          updateItems.amount=val.rate*val.quantity
+          return updateItems
+        }
+
+        return val
+      })
+
+    })
   }
   return (
     <div className='bg-[#efefef] size-full flex justify-center items-center'>
@@ -95,6 +148,7 @@ setItems(items.filter((val)=>val.id!=id))
             key={val.id}
             removeElement={removeElement}
             val={val}
+            updateElements={updateElements}
             ></BillItems>)
           }          
             <div className='border-2  w-full flex justify-center items-center px-3 rounded-sm bg-black hover:bg-[#555] active:bg-lime-500 active:scale-[0.9]'>
