@@ -1,7 +1,12 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import BillItems from '../../../bill/BillItems'
+import empServices from '../../../../service/empServices'
+import { contextApi } from '../../../context/Context'
+import { useNavigate } from 'react-router-dom'
+import toast from 'react-hot-toast'
 
 const Addbills = () => {
+  const navigate=useNavigate()
   const [bill,setBill]=useState({
     companyName:"",
     PoNo:"",
@@ -12,6 +17,7 @@ const Addbills = () => {
     GSTNo:"",
     clientBankName:""
   })
+  const {globalState}=useContext(contextApi)
   const [items,setItems]=useState([])
   const handelChange=(e)=>{
     let {name,value}=e.target
@@ -51,9 +57,24 @@ const Addbills = () => {
       GSTNo,
       clientBankName,
       items,
+      invoiceDate:new Date().toISOString().split("T")[0],
       totalAmount
     }
     console.log(payload);
+
+    (async()=>{
+try {
+        let data=await empServices.addBills(payload,globalState.token)
+      if(data.status==201){
+        toast.success("Bills added successfully")
+        navigate("/home")
+      }else{
+        toast.error("Something went wrong")
+      }
+} catch (error) {
+  toast.error("Something went wrong")
+}
+    })();
     
 
   }
