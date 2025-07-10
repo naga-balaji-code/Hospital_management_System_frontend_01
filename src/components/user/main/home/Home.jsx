@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import empServices from '../../../../service/empServices'
 import { contextApi } from '../../../context/Context'
 import { useNavigate } from 'react-router-dom'
+import toast from 'react-hot-toast'
 
 const Home = () => {
   const { globalState } = useContext(contextApi)
@@ -20,6 +21,28 @@ const Home = () => {
     // console.log(bill);
     
     navigate("updateBills",{state:bill})
+  }
+  const handelDeleteClick=(id)=>{
+    console.log(id);
+    
+    (async()=>{
+   try {
+       let data=await empServices.deleteBills(globalState.token,id)
+      console.log(data);
+      if(data.status==200){
+        toast.success(`${data.data.message}`)
+        setAllBills((preVal)=>preVal.filter((val)=>val._id!=data.data.bill._id))
+      }else{
+    toast.error("Something went wrong")
+        
+      }
+   } catch (error) {
+    console.log(error);
+    toast.error("Something went wrong")
+    
+   }
+      
+    })()
   }
 
   return (
@@ -40,7 +63,11 @@ const Home = () => {
               <button className='grow size-full bg-amber-500 rounded-sm' onClick={()=>{
                 handelUpateBills(bill)
               }}>Update</button>
-              <button className='grow size-full bg-red-500 rounded-sm'>Delete</button>
+              <button className='grow size-full bg-red-500 rounded-sm' onClick={
+                ()=>{
+                  handelDeleteClick(bill._id)
+                }
+              }>Delete</button>
             </div>
           </div>
         </div>
