@@ -1,15 +1,20 @@
-import React from 'react'
-import { RouterProvider } from 'react-router-dom'
-import routes from './routes/routes'
-import "./App.css"
-import { Toaster } from 'react-hot-toast'
+// import { Route, Routes } from "react-router-dom";
+import { Outlet, RouterProvider } from "react-router-dom";
+import  "./App.css"
+import routes from "./routes/Routes";
+// import DashboardLayout from "./DashboardLayout.jsx";
+
+
 
 const App = () => {
   return (
-<RouterProvider router={routes}>
-   
-</RouterProvider>
-)
-}
+    
+   <>
+   <RouterProvider router={routes}></RouterProvider>
+  
+   </>
+    
+  );
+};
 
-export default App
+export default App;
