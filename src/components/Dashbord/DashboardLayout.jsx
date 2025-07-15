@@ -7,7 +7,7 @@ import { MdEmail, MdLocationOn, MdPhone } from "react-icons/md";
 import { HashLink } from "react-router-hash-link";
 
 const DashboardLayout = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  // const [isOpen, setIsOpen] = useState(false);
   const [openMenu, setOpenMenu] = useState(null);
 
   const toggleMenu = (menu) => {
