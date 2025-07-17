@@ -1,7 +1,8 @@
-import axios from "axios";
+
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import { MdDelete, MdNumbers } from "react-icons/md";
+import axiosInstance from "../axiosInstance/Instance";
 
 const DeleteBranchById = () => {
   const [branchId, setBranchId] = useState("");
@@ -13,7 +14,7 @@ const DeleteBranchById = () => {
     }
 
     try {
-      await axios.delete(`http://localhost:8080/deleteBranchById?branchId=${branchId}`);
+      await axiosInstance.delete(`/deleteBranchById?branchId=${branchId}`);
       toast.success("Branch deleted successfully!");
       setBranchId("");
     } catch (err) {

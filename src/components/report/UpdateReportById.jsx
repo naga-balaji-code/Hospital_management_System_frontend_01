@@ -1,4 +1,4 @@
-import axios from "axios";
+
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import {
@@ -9,6 +9,7 @@ import {
   MdOutlineDocumentScanner,
   MdTextSnippet,
 } from "react-icons/md";
+import axiosInstance from "../axiosInstance/Instance";
 
 const UpdateReportById = () => {
   const [reportId, setReportId] = useState("");
@@ -49,8 +50,8 @@ const UpdateReportById = () => {
     }
 
     try {
-      await axios.put(
-        `http://localhost:8080/updateReportById?oldReportId=${reportId}`,
+      await axiosInstance.put(
+        `/updateReportById?oldReportId=${reportId}`,
         report
       );
       toast.success("Report updated successfully!");

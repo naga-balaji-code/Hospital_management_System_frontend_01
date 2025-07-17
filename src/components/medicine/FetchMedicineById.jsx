@@ -1,7 +1,8 @@
-import axios from "axios";
+
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import { MdNumbers } from "react-icons/md";
+import axiosInstance from "../axiosInstance/Instance";
 
 const FetchMedicineById = () => {
   const [medicineId, setMedicineId] = useState("");
@@ -14,8 +15,8 @@ const FetchMedicineById = () => {
     }
 
     try {
-      const res = await axios.get(
-        `http://localhost:8080/fetchMedicineById?medicineId=${medicineId}`
+      const res = await axiosInstance.get(
+        `/fetchMedicineById?medicineId=${medicineId}`
       );
       setMedicine(res.data);
       toast.success("Medicine fetched successfully!");

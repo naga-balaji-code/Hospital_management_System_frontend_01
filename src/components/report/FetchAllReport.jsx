@@ -1,13 +1,14 @@
-import axios from "axios";
+
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
+import axiosInstance from "../axiosInstance/Instance";
 
 const FetchAllReport = () => {
   const [reports, setReports] = useState([]);
 
   const fetchReports = async () => {
     try {
-      const res = await axios.get("http://localhost:8080/fetchAllReport");
+      const res = await axiosInstance.get("/fetchAllReport");
       if (res.data.length === 0) {
         toast.error("No reports found.");
       } else {

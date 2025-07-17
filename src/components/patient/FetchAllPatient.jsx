@@ -1,13 +1,14 @@
-import axios from "axios";
+
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
+import axiosInstance from "../axiosInstance/Instance";
 
 const FetchAllPatient = () => {
   const [patients, setPatients] = useState([]);
 
   const fetchPatients = async () => {
     try {
-      const res = await axios.get("http://localhost:8080/fetchAllPatient");
+      const res = await axiosInstance.get("/fetchAllPatient");
       if (res.data.length === 0) {
         toast.error("No patients found.");
       } else {

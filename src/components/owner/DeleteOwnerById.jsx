@@ -1,7 +1,8 @@
-import axios from "axios";
+
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import { MdDelete, MdNumbers } from "react-icons/md";
+import axiosInstance from "../axiosInstance/Instance";
 
 const DeleteOwnerById = () => {
   const [ownerId, setOwnerId] = useState("");
@@ -13,7 +14,7 @@ const DeleteOwnerById = () => {
     }
 
     try {
-      await axios.delete(`http://localhost:8080/deleteOwnerById?ownerId=${ownerId}`);
+      await axiosInstance.delete(`/deleteOwnerById?ownerId=${ownerId}`);
       toast.success("Owner deleted successfully!");
       setOwnerId("");
     } catch (err) {

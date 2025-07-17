@@ -1,7 +1,8 @@
-import axios from "axios";
+
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import { MdDelete, MdNumbers } from "react-icons/md";
+import axiosInstance from "../axiosInstance/Instance";
 
 const DeleteRoomById = () => {
   const [roomId, setRoomId] = useState("");
@@ -13,7 +14,7 @@ const DeleteRoomById = () => {
     }
 
     try {
-      await axios.delete(`http://localhost:8080/deleteRoomById?roomId=${roomId}`);
+      await axiosInstance.delete(`/deleteRoomById?roomId=${roomId}`);
       toast.success("Room deleted successfully!");
       setRoomId("");
     } catch (err) {

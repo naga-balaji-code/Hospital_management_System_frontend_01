@@ -1,7 +1,8 @@
-import axios from "axios";
+
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import { MdAttachMoney, MdNumbers, MdPerson } from "react-icons/md";
+import axiosInstance from "../axiosInstance/Instance";
 
 const UpdateOwnerById = () => {
   const [ownerId, setOwnerId] = useState("");
@@ -39,8 +40,8 @@ const UpdateOwnerById = () => {
     }
 
     try {
-      await axios.put(
-        `http://localhost:8080/updateOwnerById?oldOwnerId=${ownerId}`,
+      await axiosInstance.put(
+        `/updateOwnerById?oldOwnerId=${ownerId}`,
         owner
       );
       toast.success("Owner updated successfully!");

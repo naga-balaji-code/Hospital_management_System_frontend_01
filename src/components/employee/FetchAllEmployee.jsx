@@ -1,13 +1,14 @@
-import axios from "axios";
+
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
+import axiosInstance from "../axiosInstance/Instance";
 
 const FetchAllEmployee = () => {
   const [employees, setEmployees] = useState([]);
 
   const fetchAll = async () => {
     try {
-      const res = await axios.get("http://localhost:8080/fetchAllEmployee");
+      const res = await axiosInstance.get("/fetchAllEmployee");
       if (res.data.length === 0) {
         toast.error("No employees found.");
       } else {

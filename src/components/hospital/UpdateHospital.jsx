@@ -1,6 +1,7 @@
-import axios from 'axios';
+
 import { useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
+import axiosInstance from '../axiosInstance/Instance';
 
 const UpdateHospital = () => {
   const [hospitalId, setHospitalId] = useState('');
@@ -31,8 +32,8 @@ const UpdateHospital = () => {
     }
 
     try {
-      const response = await axios.put(
-        `http://localhost:8080/updateHospitalById?oldHospitalId=${hospitalId}`,
+      const response = await axiosInstance.put(
+        `/updateHospitalById?oldHospitalId=${hospitalId}`,
         formData
       );
       if (response.status === 200) {

@@ -1,13 +1,14 @@
-import axios from "axios";
+
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
+import axiosInstance from "../axiosInstance/Instance";
 
 const FetchAllRoom = () => {
   const [rooms, setRooms] = useState([]);
 
   const fetchRooms = async () => {
     try {
-      const res = await axios.get("http://localhost:8080/fetchAllRoom");
+      const res = await axiosInstance.get("/fetchAllRoom");
       if (res.data.length === 0) {
         toast.error("No rooms found.");
       } else {

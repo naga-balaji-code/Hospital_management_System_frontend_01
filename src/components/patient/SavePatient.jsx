@@ -1,7 +1,8 @@
-import axios from "axios";
+
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import { MdEmail, MdNumbers, MdPerson, MdPhone, MdTransgender } from "react-icons/md";
+import axiosInstance from "../axiosInstance/Instance";
 
 const SavePatient = () => {
   const [patient, setPatient] = useState({
@@ -48,7 +49,7 @@ const SavePatient = () => {
     }
 
     try {
-      await axios.post("http://localhost:8080/savePatient", patient);
+      await axiosInstance.post("/savePatient", patient);
       toast.success("Patient saved successfully!");
       setPatient({
         patientName: "",

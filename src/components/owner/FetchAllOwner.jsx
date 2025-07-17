@@ -1,13 +1,14 @@
-import axios from "axios";
+
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
+import axiosInstance from "../axiosInstance/Instance";
 
 const FetchAllOwner = () => {
   const [owners, setOwners] = useState([]);
 
   const fetchOwners = async () => {
     try {
-      const res = await axios.get("http://localhost:8080/fetchAllOwner");
+      const res = await axiosInstance.get("/fetchAllOwner");
       if (res.data.length === 0) {
         toast.error("No owners found.");
       } else {

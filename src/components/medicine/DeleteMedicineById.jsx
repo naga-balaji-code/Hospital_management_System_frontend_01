@@ -1,7 +1,8 @@
-import axios from "axios";
+
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import { MdDelete, MdNumbers } from "react-icons/md";
+import axiosInstance from "../axiosInstance/Instance";
 
 const DeleteMedicineById = () => {
   const [medicineId, setMedicineId] = useState("");
@@ -13,8 +14,8 @@ const DeleteMedicineById = () => {
     }
 
     try {
-      await axios.delete(
-        `http://localhost:8080/deleteMedicineById?medicineId=${medicineId}`
+      await axiosInstance.delete(
+        `/deleteMedicineById?medicineId=${medicineId}`
       );
       toast.success("Medicine deleted successfully!");
       setMedicineId("");

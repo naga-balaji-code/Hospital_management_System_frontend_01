@@ -1,7 +1,8 @@
-import axios from "axios";
+
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import { MdAccessTime, MdAssignmentTurnedIn, MdAttachMoney, MdCreditCard, MdDateRange } from "react-icons/md";
+import axiosInstance from "../axiosInstance/Instance";
 
 const SavePayment = () => {
   const [payment, setPayment] = useState({
@@ -38,7 +39,7 @@ const SavePayment = () => {
     }
 
     try {
-      await axios.post("http://localhost:8080/savePayment", payment);
+      await axiosInstance.post("/savePayment", payment);
       toast.success("Payment saved successfully!");
       setPayment({
         paymentType: "",

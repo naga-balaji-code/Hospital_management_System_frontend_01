@@ -1,4 +1,4 @@
-import axios from "axios";
+
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import {
@@ -8,12 +8,13 @@ import {
   FaMapMarkerAlt,
   FaMapPin,
 } from "react-icons/fa";
+import axiosInstance from "../axiosInstance/Instance";
 
 const SaveAddress= () => {
   const [address, setAddress] = useState({
     addressPlotNumber: "",
     addressCity: "",
-    addressLandMark: "",
+    addressLandMark: "", 
     addressPincode: "",
     addressState: "",
   });
@@ -46,7 +47,7 @@ const SaveAddress= () => {
     }
 
     try {
-      await axios.post("http://localhost:8080/saveAddress", address);
+      await axiosInstance.post("/saveAddress", address);
       toast.success("Address saved successfully!");
       setAddress({
         addressPlotNumber: "",

@@ -1,4 +1,4 @@
-import axios from 'axios';
+
 import { useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { BsBuildings } from 'react-icons/bs';
@@ -6,13 +6,14 @@ import { FaCity } from 'react-icons/fa';
 import { GiPathDistance } from 'react-icons/gi';
 import { MdLocationPin } from 'react-icons/md';
 import { RiMapPin2Fill } from 'react-icons/ri';
+import axiosInstance from '../axiosInstance/Instance';
 
 const FetchAllAddresses= () => {
   const [addresses, setAddresses] = useState([]);
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/fetchAllAddress');
+      const response = await axiosInstance.get('/fetchAllAddress');
       setAddresses(response.data);
       toast.success("Fetched all addresses!");
     } catch (error) {

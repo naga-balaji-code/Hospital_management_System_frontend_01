@@ -1,6 +1,7 @@
-import axios from 'axios';
+
 import { useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
+import axiosInstance from '../axiosInstance/Instance';
 
 const SaveHospital = () => {
   const [formData, setFormData] = useState({
@@ -25,7 +26,7 @@ const SaveHospital = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:8080/saveHospital', formData);
+      const response = await axiosInstance.post('/saveHospital', formData);
       if (response.status === 200) {
         toast.success('Hospital saved successfully!');
         setFormData({

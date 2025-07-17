@@ -1,13 +1,14 @@
-import axios from "axios";
+
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
+import axiosInstance from "../axiosInstance/Instance";
 
 const FetchAllBranch = () => {
   const [branches, setBranches] = useState([]);
 
   const fetchAll = async () => {
     try {
-      const res = await axios.get("http://localhost:8080/fetchAllBranch");
+      const res = await axiosInstance.get("/fetchAllBranch");
       if (res.data.length === 0) {
         toast.error("No branches found.");
       } else {

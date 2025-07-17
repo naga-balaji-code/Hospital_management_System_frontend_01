@@ -1,4 +1,4 @@
-import axios from "axios";
+
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import {
@@ -10,6 +10,7 @@ import {
   MdPhone,
   MdPlace,
 } from "react-icons/md";
+import axiosInstance from "../axiosInstance/Instance";
 
 const SaveBranch = () => {
   const [branch, setBranch] = useState({
@@ -72,7 +73,7 @@ const SaveBranch = () => {
     }
 
     try {
-      await axios.post("http://localhost:8080/saveBranch", branch);
+      await axiosInstance.post("/saveBranch", branch);
       toast.success("Branch saved successfully!");
       setBranch({
         branchName: "",

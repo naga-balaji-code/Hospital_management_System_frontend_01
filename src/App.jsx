@@ -1,7 +1,8 @@
 // import { Route, Routes } from "react-router-dom";
-import { Outlet, RouterProvider } from "react-router-dom";
-import  "./App.css"
-import routes from "./routes/Routes";
+import { RouterProvider } from "react-router-dom";
+import "./App.css";
+import routes from "./routes/routes";
+
 // import DashboardLayout from "./DashboardLayout.jsx";
 
 

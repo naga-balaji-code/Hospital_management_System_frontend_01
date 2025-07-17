@@ -1,4 +1,4 @@
-import axios from 'axios';
+
 import { useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { BiSearchAlt2 } from 'react-icons/bi';
@@ -7,6 +7,7 @@ import { FaCity } from 'react-icons/fa';
 import { GiPathDistance } from 'react-icons/gi';
 import { MdLocationPin } from 'react-icons/md';
 import { RiMapPin2Fill } from 'react-icons/ri';
+import axiosInstance from '../axiosInstance/Instance';
 
 const FetchAddress= () => {
   const [addressId, setAddressId] = useState('');
@@ -19,7 +20,7 @@ const FetchAddress= () => {
     }
 
     try {
-      const res = await axios.get(`http://localhost:8080/fetchAddressById?addressId=${addressId}`);
+      const res = await axiosInstance.get(`/fetchAddressById?addressId=${addressId}`);
       setAddress(res.data.data);
       toast.success("Address fetched successfully!");
     } catch (error) {

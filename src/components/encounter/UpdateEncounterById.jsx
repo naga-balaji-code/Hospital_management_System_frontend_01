@@ -1,4 +1,4 @@
-import axios from "axios";
+
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import {
@@ -8,6 +8,7 @@ import {
   MdNumbers,
   MdOutlinePublishedWithChanges,
 } from "react-icons/md";
+import axiosInstance from "../axiosInstance/Instance";
 
 const UpdateEncounterById = () => {
   const [encounterId, setEncounterId] = useState("");
@@ -48,8 +49,8 @@ const UpdateEncounterById = () => {
     }
 
     try {
-      await axios.put(
-        `http://localhost:8080/updateEncounterById?oldEncounterId=${encounterId}`,
+      await axiosInstance.put(
+        `/updateEncounterById?oldEncounterId=${encounterId}`,
         encounter
       );
       toast.success("Encounter updated successfully!");

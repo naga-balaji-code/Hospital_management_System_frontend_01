@@ -1,4 +1,4 @@
-import axios from "axios";
+
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import {
@@ -8,6 +8,7 @@ import {
   MdNumbers,
   MdOpacity,
 } from "react-icons/md";
+import axiosInstance from "../axiosInstance/Instance";
 
 const UpdateMedicineById = () => {
   const [medicineId, setMedicineId] = useState("");
@@ -49,8 +50,8 @@ const UpdateMedicineById = () => {
     }
 
     try {
-      await axios.put(
-        `http://localhost:8080/updateMedicineById?oldMedicineId=${medicineId}`,
+      await axiosInstance.put(
+        `/updateMedicineById?oldMedicineId=${medicineId}`,
         medicine
       );
       toast.success("Medicine updated successfully!");

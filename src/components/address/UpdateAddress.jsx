@@ -1,4 +1,4 @@
-import axios from 'axios';
+
 import { useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { BiEditAlt } from 'react-icons/bi';
@@ -7,6 +7,7 @@ import { FaCity } from 'react-icons/fa';
 import { GiPathDistance } from 'react-icons/gi';
 import { MdLocationPin } from 'react-icons/md';
 import { RiMapPin2Fill } from 'react-icons/ri';
+import axiosInstance from '../axiosInstance/Instance';
 
 const UpdateAddress = () => {
   const [addressId, setAddressId] = useState('');
@@ -35,8 +36,8 @@ const UpdateAddress = () => {
     }
 
     try {
-      const response = await axios.put(
-        `http://localhost:8080/updateAddressById?oldAddressId=${addressId}`,
+      const response = await axiosInstance.put(
+        `/updateAddressById?oldAddressId=${addressId}`,
         formData
       );
 

@@ -1,7 +1,8 @@
-import axios from "axios";
+
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import { MdNumbers } from "react-icons/md";
+import axiosInstance from "../axiosInstance/Instance";
 
 const FetchReportById = () => {
   const [reportId, setReportId] = useState("");
@@ -14,7 +15,7 @@ const FetchReportById = () => {
     }
 
     try {
-      const res = await axios.get(`http://localhost:8080/fetchReportById?reportId=${reportId}`);
+      const res = await axiosInstance.get(`/fetchReportById?reportId=${reportId}`);
       setReport(res.data);
       toast.success("Report fetched successfully!");
     } catch (err) {

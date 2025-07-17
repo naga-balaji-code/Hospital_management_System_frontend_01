@@ -1,13 +1,14 @@
-import axios from "axios";
+
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
+import axiosInstance from "../axiosInstance/Instance";
 
 const FetchAllEncounter = () => {
   const [encounters, setEncounters] = useState([]);
 
   const fetchAll = async () => {
     try {
-      const res = await axios.get("http://localhost:8080/fetchAllEncounter");
+      const res = await axiosInstance.get("/fetchAllEncounter");
       if (res.data.length === 0) {
         toast.error("No encounters found.");
       } else {

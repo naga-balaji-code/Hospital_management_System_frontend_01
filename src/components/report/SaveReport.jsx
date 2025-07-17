@@ -1,4 +1,4 @@
-import axios from "axios";
+
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import {
@@ -8,6 +8,7 @@ import {
   MdOutlineDocumentScanner,
   MdTextSnippet,
 } from "react-icons/md";
+import axiosInstance from "../axiosInstance/Instance";
 
 const SaveReport = () => {
   const [report, setReport] = useState({
@@ -44,7 +45,7 @@ const SaveReport = () => {
     }
 
     try {
-      await axios.post("http://localhost:8080/saveReport", report);
+      await axiosInstance.post("/saveReport", report);
       toast.success("Report saved successfully!");
       setReport({
         reportName: "",

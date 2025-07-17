@@ -1,4 +1,4 @@
-import axios from "axios";
+
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import {
@@ -9,6 +9,7 @@ import {
   MdDateRange,
   MdNumbers,
 } from "react-icons/md";
+import axiosInstance from "../axiosInstance/Instance";
 
 const UpdatePaymentById = () => {
   const [paymentId, setPaymentId] = useState("");
@@ -52,8 +53,8 @@ const UpdatePaymentById = () => {
     }
 
     try {
-      await axios.put(
-        `http://localhost:8080/updatePaymentById?oldPaymentId=${paymentId}`,
+      await axiosInstance.put(
+        `/updatePaymentById?oldPaymentId=${paymentId}`,
         payment
       );
       toast.success("Payment updated successfully!");

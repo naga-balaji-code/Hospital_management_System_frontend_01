@@ -1,6 +1,7 @@
-import axios from 'axios';
+
 import { useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
+import axiosInstance from '../axiosInstance/Instance';
 
 const FetchAllHospital = () => {
   const [hospitals, setHospitals] = useState([]);
@@ -8,7 +9,7 @@ const FetchAllHospital = () => {
 
   const fetchHospitals = async () => {
     try {
-      const res = await axios.get('http://localhost:8080/fetchAllHospital');
+      const res = await axiosInstance.get('/fetchAllHospital');
       setHospitals(res.data);
       setIsVisible(true);
       toast.success('Hospitals loaded successfully');

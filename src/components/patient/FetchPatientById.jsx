@@ -1,7 +1,8 @@
-import axios from "axios";
+
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import { MdNumbers } from "react-icons/md";
+import axiosInstance from "../axiosInstance/Instance";
 
 const FetchPatientById = () => {
   const [patientId, setPatientId] = useState("");
@@ -14,7 +15,7 @@ const FetchPatientById = () => {
     }
 
     try {
-      const res = await axios.get(`http://localhost:8080/fetchPatientById?patientId=${patientId}`);
+      const res = await axiosInstance.get(`/fetchPatientById?patientId=${patientId}`);
       setPatient(res.data);
       toast.success("Patient fetched successfully!");
     } catch (err) {

@@ -1,6 +1,7 @@
-import axios from 'axios';
+
 import { useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
+import axiosInstance from '../axiosInstance/Instance';
 
 const DeleteHospital = () => {
   const [hospitalId, setHospitalId] = useState('');
@@ -12,7 +13,7 @@ const DeleteHospital = () => {
     }
 
     try {
-      await axios.delete(`http://localhost:8080/deleteHospitalById?hospitalId=${hospitalId}`);
+      await axiosInstance.delete(`/deleteHospitalById?hospitalId=${hospitalId}`);
       toast.success(`Hospital with ID ${hospitalId} deleted successfully`);
       setHospitalId('');
     } catch (error) {

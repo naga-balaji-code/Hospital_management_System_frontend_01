@@ -1,7 +1,8 @@
-import axios from "axios";
+
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import { MdNumbers } from "react-icons/md";
+import axiosInstance from "../axiosInstance/Instance";
 
 const FetchEncounterById = () => {
   const [encounterId, setEncounterId] = useState("");
@@ -14,8 +15,8 @@ const FetchEncounterById = () => {
     }
 
     try {
-      const res = await axios.get(
-        `http://localhost:8080/fetchEncounterById?encounterId=${encounterId}`
+      const res = await axiosInstance.get(
+        `/fetchEncounterById?encounterId=${encounterId}`
       );
       setEncounter(res.data);
       toast.success("Encounter fetched successfully!");

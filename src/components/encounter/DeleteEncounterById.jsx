@@ -1,7 +1,8 @@
-import axios from "axios";
+
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import { MdDelete, MdNumbers } from "react-icons/md";
+import axiosInstance from "../axiosInstance/Instance";
 
 const DeleteEncounterById = () => {
   const [encounterId, setEncounterId] = useState("");
@@ -13,7 +14,7 @@ const DeleteEncounterById = () => {
     }
 
     try {
-      await axios.delete(`http://localhost:8080/deleteEncounterById?encounterId=${encounterId}`);
+      await axiosInstance.delete(`/deleteEncounterById?encounterId=${encounterId}`);
       toast.success("Encounter deleted successfully!");
       setEncounterId("");
     } catch (err) {

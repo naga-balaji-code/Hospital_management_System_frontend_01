@@ -1,7 +1,8 @@
-import axios from "axios";
+
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import { MdDelete, MdNumbers } from "react-icons/md";
+import axiosInstance from "../axiosInstance/Instance";
 
 const DeleteReportById = () => {
   const [reportId, setReportId] = useState("");
@@ -13,7 +14,7 @@ const DeleteReportById = () => {
     }
 
     try {
-      await axios.delete(`http://localhost:8080/deleteReportById?reportId=${reportId}`);
+      await axiosInstance.delete(`/deleteReportById?reportId=${reportId}`);
       toast.success("Report deleted successfully!");
       setReportId("");
     } catch (err) {

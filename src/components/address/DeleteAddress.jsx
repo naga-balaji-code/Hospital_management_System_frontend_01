@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import { useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { MdDeleteForever } from 'react-icons/md';
+import axiosInstance from '../axiosInstance/Instance';
 
 const DeleteAddress = () => {
   const [addressId, setAddressId] = useState('');
@@ -13,8 +13,7 @@ const DeleteAddress = () => {
     }
 
     try {
-      const response = await axios.delete(
-        `http://localhost:8080/deleteAddressById?addressId=${addressId}`
+      const response = await axiosInstance.delete(`/deleteAddressById?addressId=${addressId}`
       );
 
       if (response.status === 200) {

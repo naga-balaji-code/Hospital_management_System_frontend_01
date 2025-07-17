@@ -1,4 +1,4 @@
-import axios from "axios";
+
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import {
@@ -7,6 +7,7 @@ import {
   MdEventNote,
   MdOutlinePublishedWithChanges,
 } from "react-icons/md";
+import axiosInstance from "../axiosInstance/Instance";
 
 const SaveEncounter = () => {
   const [encounter, setEncounter] = useState({
@@ -41,7 +42,7 @@ const SaveEncounter = () => {
     }
 
     try {
-      await axios.post("http://localhost:8080/saveEncounter", encounter);
+      await axiosInstance.post("/saveEncounter", encounter);
       toast.success("Encounter saved successfully!");
       setEncounter({
         encounterType: "",

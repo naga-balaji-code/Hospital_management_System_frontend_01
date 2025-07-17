@@ -1,4 +1,4 @@
-import axios from "axios";
+
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import {
@@ -7,6 +7,7 @@ import {
   MdMedicalServices,
   MdOpacity,
 } from "react-icons/md";
+import axiosInstance from "../axiosInstance/Instance";
 
 const SaveMedicine = () => {
   const [medicine, setMedicine] = useState({
@@ -42,7 +43,7 @@ const SaveMedicine = () => {
     }
 
     try {
-      await axios.post("http://localhost:8080/saveMedicine", medicine);
+      await axiosInstance.post("/saveMedicine", medicine);
       toast.success("Medicine saved successfully!");
       setMedicine({
         medicineName: "",

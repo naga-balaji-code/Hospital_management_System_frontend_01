@@ -1,4 +1,4 @@
-import axios from "axios";
+
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import {
@@ -8,6 +8,7 @@ import {
   MdPerson,
   MdPhone,
 } from "react-icons/md";
+import axiosInstance from "../axiosInstance/Instance";
 
 const UpdateBranchHeadById = () => {
   const [oldBranchHeadId, setOldBranchHeadId] = useState("");
@@ -51,8 +52,8 @@ const UpdateBranchHeadById = () => {
     }
 
     try {
-      await axios.put(
-        `http://localhost:8080/updateBranchHeadById?oldBranchHeadId=${oldBranchHeadId}`,
+      await axiosInstance.put(
+        `/updateBranchHeadById?oldBranchHeadId=${oldBranchHeadId}`,
         branchHead
       );
       toast.success("Branch Head updated successfully!");

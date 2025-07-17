@@ -1,7 +1,8 @@
-import axios from "axios";
+
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import { MdNumbers } from "react-icons/md";
+import axiosInstance from "../axiosInstance/Instance";
 
 const FetchBranchById = () => {
   const [branchId, setBranchId] = useState("");
@@ -14,8 +15,8 @@ const FetchBranchById = () => {
     }
 
     try {
-      const response = await axios.get(
-        `http://localhost:8080/fetchBranchById?branchId=${branchId}`
+      const response = await axiosInstance.get(
+        ` /fetchBranchById?branchId=${branchId}`
       );
       setBranch(response.data);
       toast.success("Branch fetched successfully");

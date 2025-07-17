@@ -1,4 +1,4 @@
-import axios from "axios";
+
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import {
@@ -8,6 +8,7 @@ import {
   MdPhone,
   MdWork,
 } from "react-icons/md";
+import axiosInstance from "../axiosInstance/Instance";
 
 const SaveEmployee = () => {
   const [employee, setEmployee] = useState({
@@ -47,7 +48,7 @@ const SaveEmployee = () => {
     }
 
     try {
-      await axios.post("http://localhost:8080/saveEmployee", employee);
+      await axiosInstance.post("/saveEmployee", employee);
       toast.success("Employee saved successfully!");
       setEmployee({
         employeeName: "",

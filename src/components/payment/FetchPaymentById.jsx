@@ -1,7 +1,8 @@
-import axios from "axios";
+
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import { MdNumbers } from "react-icons/md";
+import axiosInstance from "../axiosInstance/Instance";
 
 const FetchPaymentById = () => {
   const [paymentId, setPaymentId] = useState("");
@@ -14,7 +15,7 @@ const FetchPaymentById = () => {
     }
 
     try {
-      const res = await axios.get(`http://localhost:8080/fetchPaymentById?paymentId=${paymentId}`);
+      const res = await axiosInstance.get(`/fetchPaymentById?paymentId=${paymentId}`);
       setPayment(res.data);
       toast.success("Payment fetched successfully!");
     } catch (err) {

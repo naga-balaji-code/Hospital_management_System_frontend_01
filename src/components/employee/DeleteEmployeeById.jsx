@@ -1,7 +1,8 @@
-import axios from "axios";
+
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import { MdDelete, MdNumbers } from "react-icons/md";
+import axiosInstance from "../axiosInstance/Instance";
 
 const DeleteEmployeeById = () => {
   const [employeeId, setEmployeeId] = useState("");
@@ -13,7 +14,7 @@ const DeleteEmployeeById = () => {
     }
 
     try {
-      await axios.delete(`http://localhost:8080/deleteEmployeeById?employeeId=${employeeId}`);
+      await axiosInstance.delete(`/deleteEmployeeById?employeeId=${employeeId}`);
       toast.success("Employee deleted successfully!");
       setEmployeeId("");
     } catch (err) {

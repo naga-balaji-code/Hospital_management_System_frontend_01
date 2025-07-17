@@ -1,13 +1,14 @@
-import axios from "axios";
+
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
+import axiosInstance from "../axiosInstance/Instance";
 
 const FetchAllPayment = () => {
   const [payments, setPayments] = useState([]);
 
   const fetchPayments = async () => {
     try {
-      const res = await axios.get("http://localhost:8080/fetchAllPayment");
+      const res = await axiosInstance.get("/fetchAllPayment");
       if (res.data.length === 0) {
         toast.error("No payments found.");
       } else {

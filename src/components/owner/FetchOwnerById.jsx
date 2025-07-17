@@ -1,7 +1,8 @@
-import axios from "axios";
+
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import { MdNumbers } from "react-icons/md";
+import axiosInstance from "../axiosInstance/Instance";
 
 const FetchOwnerById = () => {
   const [ownerId, setOwnerId] = useState("");
@@ -14,8 +15,8 @@ const FetchOwnerById = () => {
     }
 
     try {
-      const res = await axios.get(
-        `http://localhost:8080/fetchOwnerById?ownerId=${ownerId}`
+      const res = await axiosInstance.get(
+        `/fetchOwnerById?ownerId=${ownerId}`
       );
       setOwner(res.data);
       toast.success("Owner fetched successfully!");

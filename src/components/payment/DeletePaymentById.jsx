@@ -1,7 +1,8 @@
-import axios from "axios";
+
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import { MdDelete, MdNumbers } from "react-icons/md";
+import axiosInstance from "../axiosInstance/Instance";
 
 const DeletePaymentById = () => {
   const [paymentId, setPaymentId] = useState("");
@@ -13,7 +14,7 @@ const DeletePaymentById = () => {
     }
 
     try {
-      await axios.delete(`http://localhost:8080/deletePaymentById?paymentId=${paymentId}`);
+      await axiosInstance.delete(`/deletePaymentById?paymentId=${paymentId}`);
       toast.success("Payment deleted successfully!");
       setPaymentId("");
     } catch (err) {

@@ -1,6 +1,7 @@
-import axios from 'axios';
+
 import { useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
+import axiosInstance from '../axiosInstance/Instance';
 
 const FetchHospitalById = () => {
   const [hospitalId, setHospitalId] = useState('');
@@ -13,7 +14,7 @@ const FetchHospitalById = () => {
     }
 
     try {
-      const res = await axios.get(`http://localhost:8080/fetchHospitalById?hospitalId=${hospitalId}`);
+      const res = await axiosInstance.get(`/fetchHospitalById?hospitalId=${hospitalId}`);
       setHospital(res.data.data);
       toast.success('Hospital fetched successfully!');
     } catch (error) {

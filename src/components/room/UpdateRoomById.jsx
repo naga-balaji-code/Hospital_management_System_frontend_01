@@ -1,4 +1,4 @@
-import axios from "axios";
+
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import {
@@ -8,6 +8,7 @@ import {
   MdOutlineAttachMoney,
   MdPeople,
 } from "react-icons/md";
+import axiosInstance from "../axiosInstance/Instance";
 
 const UpdateRoomById = () => {
   const [roomId, setRoomId] = useState("");
@@ -47,7 +48,7 @@ const UpdateRoomById = () => {
     }
 
     try {
-      await axios.put(`http://localhost:8080/updateRoomById?oldRoomId=${roomId}`, room);
+      await axiosInstance.put(`/updateRoomById?oldRoomId=${roomId}`, room);
       toast.success("Room updated successfully!");
       setRoomId("");
       setRoom({

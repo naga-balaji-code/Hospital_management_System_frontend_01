@@ -1,4 +1,4 @@
-import axios from "axios";
+
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import {
@@ -7,6 +7,7 @@ import {
   MdOutlineAttachMoney,
   MdPeople,
 } from "react-icons/md";
+import axiosInstance from "../axiosInstance/Instance";
 
 const SaveRoom = () => {
   const [room, setRoom] = useState({
@@ -41,7 +42,7 @@ const SaveRoom = () => {
     }
 
     try {
-      await axios.post("http://localhost:8080/saveRoom", room);
+      await axiosInstance.post("/saveRoom", room);
       toast.success("Room saved successfully!");
       setRoom({
         roomNumber: "",

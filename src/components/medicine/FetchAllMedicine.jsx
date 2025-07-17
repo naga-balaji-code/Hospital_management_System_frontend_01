@@ -1,13 +1,14 @@
-import axios from "axios";
+
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
+import axiosInstance from "../axiosInstance/Instance";
 
 const FetchAllMedicine = () => {
   const [medicines, setMedicines] = useState([]);
 
   const fetchAll = async () => {
     try {
-      const res = await axios.get("http://localhost:8080/fetchAllMedicine");
+      const res = await axiosInstance.get("/fetchAllMedicine");
       if (res.data.length === 0) {
         toast.error("No medicines found.");
       } else {

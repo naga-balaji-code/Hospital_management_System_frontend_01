@@ -1,7 +1,8 @@
-import axios from "axios";
+
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import { MdAttachMoney, MdPerson } from "react-icons/md";
+import axiosInstance from "../axiosInstance/Instance";
 
 const SaveOwner = () => {
   const [owner, setOwner] = useState({
@@ -33,7 +34,7 @@ const SaveOwner = () => {
     }
 
     try {
-      await axios.post("http://localhost:8080/saveOwner", owner);
+      await axiosInstance.post("/saveOwner", owner);
       toast.success("Owner saved successfully!");
       setOwner({ ownerName: "", ownerNetworth: "" });
     } catch (err) {

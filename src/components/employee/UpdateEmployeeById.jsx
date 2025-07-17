@@ -1,4 +1,4 @@
-import axios from "axios";
+
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import {
@@ -9,6 +9,7 @@ import {
   MdPhone,
   MdWork,
 } from "react-icons/md";
+import axiosInstance from "../axiosInstance/Instance";
 
 const UpdateEmployeeById = () => {
   const [employeeId, setEmployeeId] = useState("");
@@ -56,8 +57,8 @@ const UpdateEmployeeById = () => {
     }
 
     try {
-      await axios.put(
-        `http://localhost:8080/updateEmployeeById?oldEmployeeId=${employeeId}`,
+      await axiosInstance.put(
+        `/updateEmployeeById?oldEmployeeId=${employeeId}`,
         employee
       );
       toast.success("Employee updated successfully!");
