@@ -11,23 +11,23 @@ import axiosInstance from "../axiosInstance/Instance";
 
 const SaveBranchHead = () => {
   const [branchHead, setBranchHead] = useState({
-    branchheadName: "",
-    branchheadEmail: "",
-    branchheadPhone: "",
-    branchheadSalary: "",
+    branchHeadName: "",
+    branchHeadEmail: "",
+    branchHeadPhone: "",
+    branchHeadSalary: "",
   });
 
   const [errors, setErrors] = useState({});
 
   const validate = () => {
     const newErrors = {};
-    if (!branchHead.branchheadName) newErrors.branchheadName = "Name is required";
-    if (!branchHead.branchheadEmail || !branchHead.branchheadEmail.includes("@"))
-      newErrors.branchheadEmail = "Valid email is required";
-    if (!branchHead.branchheadPhone || branchHead.branchheadPhone.length < 10)
-      newErrors.branchheadPhone = "Valid phone number is required";
-    if (!branchHead.branchheadSalary || branchHead.branchheadSalary <= 0)
-      newErrors.branchheadSalary = "Valid salary is required";
+    if (!branchHead.branchHeadName) newErrors.branchHeadName = "Name is required";
+    if (!branchHead.branchHeadEmail || !branchHead.branchHeadEmail.includes("@"))
+      newErrors.branchHeadEmail = "Valid email is required";
+    if (!branchHead.branchHeadPhone || branchHead.branchHeadPhone.length < 10)
+      newErrors.branchHeadPhone = "Valid phone number is required";
+    if (!branchHead.branchHeadSalary || branchHead.branchHeadSalary <= 0)
+      newErrors.branchHeadSalary = "Valid salary is required";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -49,10 +49,10 @@ const SaveBranchHead = () => {
       await axiosInstance.post("/saveBranchHead", branchHead);
       toast.success("Branch Head saved successfully!");
       setBranchHead({
-        branchheadName: "",
-        branchheadEmail: "",
-        branchheadPhone: "",
-        branchheadSalary: "",
+        branchHeadName: "",
+        branchHeadEmail: "",
+        branchHeadPhone: "",
+        branchHeadSalary: "",
       });
     } catch (err) {
       toast.error("Failed to save Branch Head.");
@@ -82,13 +82,13 @@ const SaveBranchHead = () => {
           <div className="relative">
             <MdPerson className="absolute top-3 left-3 text-gray-500" />
             <input
-              name="branchheadName"
+              name="branchHeadName"
               placeholder="Name"
-              value={branchHead.branchheadName}
+              value={branchHead.branchHeadName}
               onChange={handleChange}
               className={inputStyle}
             />
-            {errors.branchheadName && <p className="text-red-500 text-sm">{errors.branchheadName}</p>}
+            {errors.branchheadName && <p className="text-red-500 text-sm">{errors.branchHeadName}</p>}
           </div>
 
           {/* Email */}
@@ -97,26 +97,26 @@ const SaveBranchHead = () => {
             <input
               name="branchheadEmail"
               placeholder="Email"
-              value={branchHead.branchheadEmail}
+              value={branchHead.branchHeadEmail}
               onChange={handleChange}
               className={inputStyle}
               type="email"
             />
-            {errors.branchheadEmail && <p className="text-red-500 text-sm">{errors.branchheadEmail}</p>}
+            {errors.branchHeadEmail && <p className="text-red-500 text-sm">{errors.branchHeadEmail}</p>}
           </div>
 
           {/* Phone */}
           <div className="relative">
             <MdPhone className="absolute top-3 left-3 text-gray-500" />
             <input
-              name="branchheadPhone"
+              name="branchHeadPhone"
               placeholder="Phone"
-              value={branchHead.branchheadPhone}
+              value={branchHead.branchHeadPhone}
               onChange={handleChange}
               className={inputStyle}
               type="number"
             />
-            {errors.branchheadPhone && <p className="text-red-500 text-sm">{errors.branchheadPhone}</p>}
+            {errors.branchHeadPhone && <p className="text-red-500 text-sm">{errors.branchHeadPhone}</p>}
           </div>
 
           {/* Salary */}
@@ -125,12 +125,12 @@ const SaveBranchHead = () => {
             <input
               name="branchheadSalary"
               placeholder="Salary"
-              value={branchHead.branchheadSalary}
+              value={branchHead.branchHeadSalary}
               onChange={handleChange}
               className={inputStyle}
               type="number"
             />
-            {errors.branchheadSalary && <p className="text-red-500 text-sm">{errors.branchheadSalary}</p>}
+            {errors.branchHeadSalary && <p className="text-red-500 text-sm">{errors.branchHeadSalary}</p>}
           </div>
 
           {/* Submit */}
