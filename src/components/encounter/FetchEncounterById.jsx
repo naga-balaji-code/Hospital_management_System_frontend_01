@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import { MdNumbers } from "react-icons/md";
@@ -18,21 +17,27 @@ const FetchEncounterById = () => {
       const res = await axiosInstance.get(
         `/fetchEncounterById?encounterId=${encounterId}`
       );
-      setEncounter(res.data);
-      toast.success("Encounter fetched successfully!");
+
+      if (res.data && res.data.data) {
+        setEncounter(res.data.data); // ✅ Only get the actual Encounter object
+        toast.success("Encounter fetched successfully!");
+      } else {
+        setEncounter(null);
+        toast.error("Encounter not found");
+      }
     } catch (err) {
+      console.error(err);
       setEncounter(null);
-      toast.error("Encounter not found");
+      toast.error("Failed to fetch encounter.");
     }
   };
 
   return (
     <div
-       className="min-h-screen flex items-center justify-center px-4 bg-cover bg-center"
+      className="min-h-screen flex items-center justify-center px-4 bg-cover bg-center"
       style={{
         backgroundImage:
           "url('https://media.istockphoto.com/id/1170032577/photo/medical-sign-and-symbols-background.jpg?s=612x612&w=0&k=20&c=86QPDe0m7KchPNpxVTVsq5hWeLIb8CzFNh4pxi6Zx4Y=')",
-          
       }}
     >
       <Toaster position="top-center" />
@@ -41,6 +46,7 @@ const FetchEncounterById = () => {
           Fetch Encounter by ID
         </h2>
 
+        {/* ✅ Input & Button */}
         <div className="flex flex-col md:flex-row gap-4 mb-6">
           <div className="relative w-full">
             <MdNumbers className="absolute top-3 left-3 text-gray-500" />
@@ -60,6 +66,7 @@ const FetchEncounterById = () => {
           </button>
         </div>
 
+        {/* ✅ Encounter Details */}
         {encounter && (
           <div className="bg-gray-100 p-4 rounded-md shadow text-sm space-y-2">
             <h3 className="text-xl font-semibold text-blue-700 mb-2">
@@ -69,6 +76,8 @@ const FetchEncounterById = () => {
             <p><strong>Date:</strong> {encounter.encounterDate}</p>
             <p><strong>Time:</strong> {encounter.encounterTime}</p>
             <p><strong>Status:</strong> {encounter.encounterStatus}</p>
+            <p><strong>Patient:</strong> {encounter.patient?.patientName || "N/A"}</p>
+            <p><strong>Email:</strong> {encounter.patient?.patientEmail || "N/A"}</p>
           </div>
         )}
       </div>

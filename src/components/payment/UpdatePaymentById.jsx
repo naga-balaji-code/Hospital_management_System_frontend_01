@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import {
@@ -23,6 +22,7 @@ const UpdatePaymentById = () => {
 
   const [errors, setErrors] = useState({});
 
+  // ✅ Validation
   const validate = () => {
     const err = {};
     if (!payment.paymentType) err.paymentType = "Payment type is required";
@@ -35,13 +35,16 @@ const UpdatePaymentById = () => {
     return Object.keys(err).length === 0;
   };
 
+  // ✅ Input change handler
   const handleChange = (e) => {
     const { name, value } = e.target;
     setPayment((prev) => ({ ...prev, [name]: value }));
   };
 
+  // ✅ Submit update
   const handleUpdate = async (e) => {
     e.preventDefault();
+
     if (!paymentId || isNaN(paymentId)) {
       toast.error("Enter valid Payment ID");
       return;
@@ -53,21 +56,35 @@ const UpdatePaymentById = () => {
     }
 
     try {
-      await axiosInstance.put(
+      const res = await axiosInstance.put(
         `/updatePaymentById?oldPaymentId=${paymentId}`,
         payment
       );
-      toast.success("Payment updated successfully!");
-      setPaymentId("");
-      setPayment({
-        paymentType: "",
-        paymentAmount: "",
-        paymentStatus: "",
-        paymentDate: "",
-        paymentTime: "",
-      });
+
+      // ✅ Extract backend message
+      const updatedPayment = res.data?.data;
+      const backendMsg = res.data?.message || "Payment updated successfully!";
+
+      toast.success(backendMsg);
+
+      // ✅ Reset form after success
+      if (updatedPayment) {
+        setPaymentId("");
+        setPayment({
+          paymentType: "",
+          paymentAmount: "",
+          paymentStatus: "",
+          paymentDate: "",
+          paymentTime: "",
+        });
+      }
     } catch (err) {
-      toast.error("Update failed.");
+      console.error(err);
+      if (err.response?.data?.message) {
+        toast.error(err.response.data.message);
+      } else {
+        toast.error("Failed to update payment.");
+      }
     }
   };
 
@@ -76,11 +93,10 @@ const UpdatePaymentById = () => {
 
   return (
     <div
-       className="min-h-screen flex items-center justify-center px-4 bg-cover bg-center"
+      className="min-h-screen flex items-center justify-center px-4 bg-cover bg-center"
       style={{
         backgroundImage:
           "url('https://media.istockphoto.com/id/1170032577/photo/medical-sign-and-symbols-background.jpg?s=612x612&w=0&k=20&c=86QPDe0m7KchPNpxVTVsq5hWeLIb8CzFNh4pxi6Zx4Y=')",
-          
       }}
     >
       <Toaster position="top-center" />
@@ -90,7 +106,7 @@ const UpdatePaymentById = () => {
         </h2>
 
         <form onSubmit={handleUpdate} className="space-y-4">
-          {/* Payment ID */}
+          {/* ✅ Payment ID */}
           <div className="relative">
             <MdNumbers className="absolute top-3 left-3 text-gray-500" />
             <input
@@ -102,7 +118,7 @@ const UpdatePaymentById = () => {
             />
           </div>
 
-          {/* Payment Type */}
+          {/* ✅ Payment Type */}
           <div className="relative">
             <MdCreditCard className="absolute top-3 left-3 text-gray-500" />
             <input
@@ -113,10 +129,12 @@ const UpdatePaymentById = () => {
               onChange={handleChange}
               className={inputStyle}
             />
-            {errors.paymentType && <p className="text-red-500 text-sm">{errors.paymentType}</p>}
+            {errors.paymentType && (
+              <p className="text-red-500 text-sm">{errors.paymentType}</p>
+            )}
           </div>
 
-          {/* Amount */}
+          {/* ✅ Amount */}
           <div className="relative">
             <MdAttachMoney className="absolute top-3 left-3 text-gray-500" />
             <input
@@ -127,10 +145,12 @@ const UpdatePaymentById = () => {
               onChange={handleChange}
               className={inputStyle}
             />
-            {errors.paymentAmount && <p className="text-red-500 text-sm">{errors.paymentAmount}</p>}
+            {errors.paymentAmount && (
+              <p className="text-red-500 text-sm">{errors.paymentAmount}</p>
+            )}
           </div>
 
-          {/* Status */}
+          {/* ✅ Status */}
           <div className="relative">
             <MdAssignmentTurnedIn className="absolute top-3 left-3 text-gray-500" />
             <input
@@ -141,10 +161,12 @@ const UpdatePaymentById = () => {
               onChange={handleChange}
               className={inputStyle}
             />
-            {errors.paymentStatus && <p className="text-red-500 text-sm">{errors.paymentStatus}</p>}
+            {errors.paymentStatus && (
+              <p className="text-red-500 text-sm">{errors.paymentStatus}</p>
+            )}
           </div>
 
-          {/* Date */}
+          {/* ✅ Date */}
           <div className="relative">
             <MdDateRange className="absolute top-3 left-3 text-gray-500" />
             <input
@@ -154,10 +176,12 @@ const UpdatePaymentById = () => {
               onChange={handleChange}
               className={inputStyle}
             />
-            {errors.paymentDate && <p className="text-red-500 text-sm">{errors.paymentDate}</p>}
+            {errors.paymentDate && (
+              <p className="text-red-500 text-sm">{errors.paymentDate}</p>
+            )}
           </div>
 
-          {/* Time */}
+          {/* ✅ Time */}
           <div className="relative">
             <MdAccessTime className="absolute top-3 left-3 text-gray-500" />
             <input
@@ -167,7 +191,9 @@ const UpdatePaymentById = () => {
               onChange={handleChange}
               className={inputStyle}
             />
-            {errors.paymentTime && <p className="text-red-500 text-sm">{errors.paymentTime}</p>}
+            {errors.paymentTime && (
+              <p className="text-red-500 text-sm">{errors.paymentTime}</p>
+            )}
           </div>
 
           <button

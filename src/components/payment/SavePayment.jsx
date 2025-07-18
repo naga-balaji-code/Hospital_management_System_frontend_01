@@ -17,12 +17,11 @@ const SavePayment = () => {
     paymentStatus: "",
     paymentDate: "",
     paymentTime: "",
-    patientId: "", // ✅ Added for linking payment to patient
+    patientId: "",
   });
 
   const [errors, setErrors] = useState({});
 
-  // ✅ Validation
   const validate = () => {
     const err = {};
     if (!payment.paymentType) err.paymentType = "Payment type is required";
@@ -37,13 +36,11 @@ const SavePayment = () => {
     return Object.keys(err).length === 0;
   };
 
-  // ✅ Input change handler
   const handleChange = (e) => {
     const { name, value } = e.target;
     setPayment((prev) => ({ ...prev, [name]: value }));
   };
 
-  // ✅ Form submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validate()) {
@@ -52,13 +49,16 @@ const SavePayment = () => {
     }
 
     try {
-      // ✅ Construct the payload as backend expects
+      const formattedTime = payment.paymentTime.length === 5 
+        ? `${payment.paymentTime}:00` // add seconds
+        : payment.paymentTime;
+
       const payload = {
         paymentType: payment.paymentType,
         paymentAmount: parseFloat(payment.paymentAmount),
         paymentStatus: payment.paymentStatus,
-        paymentDate: payment.paymentDate,
-        paymentTime: payment.paymentTime,
+        paymentDate: payment.paymentDate, // YYYY-MM-DD
+        paymentTime: formattedTime,       // HH:mm:ss
         patient: {
           patientId: parseInt(payment.patientId),
         },
@@ -67,7 +67,6 @@ const SavePayment = () => {
       await axiosInstance.post("/savePayment", payload);
       toast.success("Payment saved successfully!");
 
-      // ✅ Reset form
       setPayment({
         paymentType: "",
         paymentAmount: "",
@@ -100,7 +99,6 @@ const SavePayment = () => {
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          {/* ✅ Payment Type */}
           <div className="relative">
             <MdCreditCard className="absolute top-3 left-3 text-gray-500" />
             <input
@@ -116,7 +114,6 @@ const SavePayment = () => {
             )}
           </div>
 
-          {/* ✅ Payment Amount */}
           <div className="relative">
             <MdAttachMoney className="absolute top-3 left-3 text-gray-500" />
             <input
@@ -132,7 +129,6 @@ const SavePayment = () => {
             )}
           </div>
 
-          {/* ✅ Payment Status */}
           <div className="relative">
             <MdAssignmentTurnedIn className="absolute top-3 left-3 text-gray-500" />
             <input
@@ -148,7 +144,6 @@ const SavePayment = () => {
             )}
           </div>
 
-          {/* ✅ Payment Date */}
           <div className="relative">
             <MdDateRange className="absolute top-3 left-3 text-gray-500" />
             <input
@@ -163,7 +158,6 @@ const SavePayment = () => {
             )}
           </div>
 
-          {/* ✅ Payment Time */}
           <div className="relative">
             <MdAccessTime className="absolute top-3 left-3 text-gray-500" />
             <input
@@ -178,7 +172,6 @@ const SavePayment = () => {
             )}
           </div>
 
-          {/* ✅ Patient ID (Required to link payment) */}
           <div className="relative">
             <MdPerson className="absolute top-3 left-3 text-gray-500" />
             <input
@@ -194,7 +187,6 @@ const SavePayment = () => {
             )}
           </div>
 
-          {/* ✅ Submit */}
           <button
             type="submit"
             className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-md transition"
@@ -208,3 +200,4 @@ const SavePayment = () => {
 };
 
 export default SavePayment;
+

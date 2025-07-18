@@ -27,21 +27,23 @@ const SaveEncounter = () => {
     const fetchPatients = async () => {
       try {
         const res = await axiosInstance.get("/fetchAllPatient");
-        setPatients(res.data);
+        setPatients(res.data || []);
       } catch (err) {
+        console.error(err);
         toast.error("Failed to load patients");
       }
     };
     fetchPatients();
   }, []);
 
-  // ✅ Validate form
+  // ✅ Validate form fields
   const validate = () => {
     const err = {};
-    if (!encounter.encounterType) err.encounterType = "Type is required";
+    if (!encounter.encounterType.trim()) err.encounterType = "Type is required";
     if (!encounter.encounterDate) err.encounterDate = "Date is required";
     if (!encounter.encounterTime) err.encounterTime = "Time is required";
-    if (!encounter.encounterStatus) err.encounterStatus = "Status is required";
+    if (!encounter.encounterStatus.trim())
+      err.encounterStatus = "Status is required";
     if (!encounter.patientId) err.patientId = "Please select a patient";
     setErrors(err);
     return Object.keys(err).length === 0;
@@ -53,6 +55,13 @@ const SaveEncounter = () => {
     setEncounter((prev) => ({ ...prev, [name]: value }));
   };
 
+  // ✅ Format time to HH:mm:ss for backend
+  const formatTimeForBackend = (timeValue) => {
+    if (!timeValue) return "";
+    // HTML input type="time" returns HH:mm, backend expects HH:mm:ss
+    return timeValue.length === 5 ? `${timeValue}:00` : timeValue;
+  };
+
   // ✅ Submit encounter
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -61,17 +70,21 @@ const SaveEncounter = () => {
       return;
     }
 
-    // ✅ Nested JSON for backend
+    // ✅ Create payload for backend
     const payload = {
-      encounterType: encounter.encounterType,
-      encounterDate: encounter.encounterDate,
-      encounterTime: encounter.encounterTime,
-      encounterStatus: encounter.encounterStatus,
-      patient: { patientId: encounter.patientId },
+      encounterType: encounter.encounterType.trim(),
+      encounterDate: encounter.encounterDate, // YYYY-MM-DD
+      encounterTime: formatTimeForBackend(encounter.encounterTime),
+      encounterStatus: encounter.encounterStatus.trim(),
+      patient: { patientId: parseInt(encounter.patientId) },
     };
 
     try {
       const res = await axiosInstance.post("/saveEncounter", payload);
+
+      // ✅ Spring Boot may return ResponseStructure or plain encounter
+      const saved = res.data?.data || res.data;
+
       toast.success("Encounter saved successfully!");
 
       // ✅ Reset form
@@ -84,8 +97,9 @@ const SaveEncounter = () => {
       });
 
       // ✅ Add saved encounter to table
-      setSavedEncounters((prev) => [...prev, res.data]);
+      setSavedEncounters((prev) => [...prev, saved]);
     } catch (err) {
+      console.error(err);
       toast.error("Failed to save encounter.");
     }
   };
@@ -99,7 +113,6 @@ const SaveEncounter = () => {
       style={{
         backgroundImage:
           "url('https://media.istockphoto.com/id/1170032577/photo/medical-sign-and-symbols-background.jpg?s=612x612&w=0&k=20&c=86QPDe0m7KchPNpxVTVsq5hWeLIb8CzFNh4pxi6Zx4Y=')",
-          
       }}
     >
       <Toaster position="top-center" />
@@ -115,7 +128,7 @@ const SaveEncounter = () => {
             <MdEventNote className="absolute top-3 left-3 text-gray-500" />
             <input
               name="encounterType"
-              placeholder="Encounter Type"
+              placeholder="Encounter Type (e.g. Emergency, Checkup)"
               value={encounter.encounterType}
               onChange={handleChange}
               className={inputStyle}
@@ -160,7 +173,7 @@ const SaveEncounter = () => {
             <MdOutlinePublishedWithChanges className="absolute top-3 left-3 text-gray-500" />
             <input
               name="encounterStatus"
-              placeholder="Encounter Status"
+              placeholder="Encounter Status (e.g. Active, Completed)"
               value={encounter.encounterStatus}
               onChange={handleChange}
               className={inputStyle}
@@ -208,7 +221,7 @@ const SaveEncounter = () => {
             Saved Encounters
           </h3>
           <div className="overflow-x-auto">
-            <table className="min-w-full text-sm text-left">
+            <table className="min-w-full text-sm text-left border border-gray-200">
               <thead className="bg-blue-700 text-white">
                 <tr>
                   <th className="p-3">#</th>

@@ -6,6 +6,7 @@ import axiosInstance from "../axiosInstance/Instance";
 
 const DeleteEncounterById = () => {
   const [encounterId, setEncounterId] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleDelete = async () => {
     if (!encounterId || isNaN(encounterId)) {
@@ -13,22 +14,36 @@ const DeleteEncounterById = () => {
       return;
     }
 
+    setLoading(true);
     try {
-      await axiosInstance.delete(`/deleteEncounterById?encounterId=${encounterId}`);
-      toast.success("Encounter deleted successfully!");
-      setEncounterId("");
+      const res = await axiosInstance.delete(
+        `/deleteEncounterById?encounterId=${encounterId}`
+      );
+
+      // ✅ Show backend message if available
+      if (res.data?.message) {
+        toast.success(res.data.message);
+      } else {
+        toast.success("Encounter deleted successfully!");
+      }
+
+      setEncounterId(""); // ✅ Reset input field
     } catch (err) {
-      toast.error("Failed to delete encounter. Check ID and try again.");
+      console.error(err);
+      toast.error(
+        err.response?.data?.message || "Failed to delete encounter. Check ID and try again."
+      );
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div
-     className="min-h-screen flex items-center justify-center px-4 bg-cover bg-center"
+      className="min-h-screen flex items-center justify-center px-4 bg-cover bg-center"
       style={{
         backgroundImage:
           "url('https://media.istockphoto.com/id/1170032577/photo/medical-sign-and-symbols-background.jpg?s=612x612&w=0&k=20&c=86QPDe0m7KchPNpxVTVsq5hWeLIb8CzFNh4pxi6Zx4Y=')",
-          
       }}
     >
       <Toaster position="top-center" />
@@ -37,6 +52,7 @@ const DeleteEncounterById = () => {
           Delete Encounter by ID
         </h2>
 
+        {/* ✅ Input & Delete Button */}
         <div className="flex flex-col md:flex-row gap-4">
           <div className="relative w-full">
             <MdNumbers className="absolute top-3 left-3 text-gray-500" />
@@ -51,12 +67,12 @@ const DeleteEncounterById = () => {
 
           <button
             onClick={handleDelete}
-            className="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-2 rounded-md transition"
+            disabled={loading}
+            className={`flex items-center gap-2 px-6 py-2 rounded-md font-semibold transition 
+              ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-red-600 hover:bg-red-700 text-white"}`}
           >
-            <div className="flex items-center gap-2">
-              <MdDelete />
-              Delete
-            </div>
+            <MdDelete />
+            {loading ? "Deleting..." : "Delete"}
           </button>
         </div>
       </div>

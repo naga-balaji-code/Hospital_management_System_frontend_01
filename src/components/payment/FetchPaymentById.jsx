@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import { MdNumbers } from "react-icons/md";
@@ -15,12 +14,30 @@ const FetchPaymentById = () => {
     }
 
     try {
-      const res = await axiosInstance.get(`/fetchPaymentById?paymentId=${paymentId}`);
-      setPayment(res.data);
-      toast.success("Payment fetched successfully!");
+      const res = await axiosInstance.get(
+        `/fetchPaymentById?paymentId=${paymentId}`
+      );
+
+      // ✅ Extract payment data from ResponseStructure
+      const paymentData = res.data?.data;
+      if (!paymentData) {
+        toast.error("Payment not found");
+        setPayment(null);
+        return;
+      }
+
+      setPayment(paymentData);
+
+      // ✅ Show backend message if present
+      toast.success(res.data?.message || "Payment fetched successfully!");
     } catch (err) {
+      console.error(err);
       setPayment(null);
-      toast.error("Payment not found.");
+      if (err.response?.data?.message) {
+        toast.error(err.response.data.message);
+      } else {
+        toast.error("Payment not found.");
+      }
     }
   };
 
@@ -30,7 +47,6 @@ const FetchPaymentById = () => {
       style={{
         backgroundImage:
           "url('https://media.istockphoto.com/id/1170032577/photo/medical-sign-and-symbols-background.jpg?s=612x612&w=0&k=20&c=86QPDe0m7KchPNpxVTVsq5hWeLIb8CzFNh4pxi6Zx4Y=')",
-          
       }}
     >
       <Toaster position="top-center" />
@@ -39,6 +55,7 @@ const FetchPaymentById = () => {
           Fetch Payment by ID
         </h2>
 
+        {/* ✅ Input + Fetch Button */}
         <div className="flex flex-col md:flex-row gap-4 mb-6">
           <div className="relative w-full">
             <MdNumbers className="absolute top-3 left-3 text-gray-500" />
@@ -59,16 +76,40 @@ const FetchPaymentById = () => {
           </button>
         </div>
 
+        {/* ✅ Show Payment Details if Found */}
         {payment && (
           <div className="bg-gray-100 p-4 rounded-md shadow text-sm space-y-2">
             <h3 className="text-xl font-semibold text-blue-700 mb-2">
               Payment Details
             </h3>
-            <p><strong>Type:</strong> {payment.paymentType}</p>
-            <p><strong>Amount:</strong> ₹{payment.paymentAmount}</p>
-            <p><strong>Status:</strong> {payment.paymentStatus}</p>
-            <p><strong>Date:</strong> {payment.paymentDate}</p>
-            <p><strong>Time:</strong> {payment.paymentTime}</p>
+            <p>
+              <strong>Type:</strong> {payment.paymentType}
+            </p>
+            <p>
+              <strong>Amount:</strong> ₹{payment.paymentAmount}
+            </p>
+            <p>
+              <strong>Status:</strong> {payment.paymentStatus}
+            </p>
+            <p>
+              <strong>Date:</strong> {payment.paymentDate}
+            </p>
+            <p>
+              <strong>Time:</strong> {payment.paymentTime}
+            </p>
+
+            {/* ✅ Show Patient Info if available */}
+            {payment.patient && (
+              <div className="mt-3 border-t border-gray-300 pt-2">
+                <h4 className="text-blue-600 font-semibold">Patient Info</h4>
+                <p>
+                  <strong>Name:</strong> {payment.patient.patientName}
+                </p>
+                <p>
+                  <strong>Email:</strong> {payment.patient.patientEmail}
+                </p>
+              </div>
+            )}
           </div>
         )}
       </div>

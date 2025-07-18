@@ -6,6 +6,7 @@ import axiosInstance from "../axiosInstance/Instance";
 
 const DeletePaymentById = () => {
   const [paymentId, setPaymentId] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleDelete = async () => {
     if (!paymentId || isNaN(paymentId)) {
@@ -13,12 +14,26 @@ const DeletePaymentById = () => {
       return;
     }
 
+    setLoading(true);
     try {
-      await axiosInstance.delete(`/deletePaymentById?paymentId=${paymentId}`);
-      toast.success("Payment deleted successfully!");
-      setPaymentId("");
+      const res = await axiosInstance.delete(
+        `/deletePaymentById?paymentId=${paymentId}`
+      );
+
+      // ✅ Backend sends ResponseStructure with message
+      toast.success(res.data?.message || "Payment deleted successfully!");
+
+      setPaymentId(""); // reset input after successful delete
     } catch (err) {
-      toast.error("Failed to delete payment.");
+      console.error(err);
+
+      if (err.response?.data?.message) {
+        toast.error(err.response.data.message); // show backend error
+      } else {
+        toast.error("Failed to delete payment. Please try again.");
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -28,7 +43,6 @@ const DeletePaymentById = () => {
       style={{
         backgroundImage:
           "url('https://media.istockphoto.com/id/1170032577/photo/medical-sign-and-symbols-background.jpg?s=612x612&w=0&k=20&c=86QPDe0m7KchPNpxVTVsq5hWeLIb8CzFNh4pxi6Zx4Y=')",
-          
       }}
     >
       <Toaster position="top-center" />
@@ -37,6 +51,7 @@ const DeletePaymentById = () => {
           Delete Payment by ID
         </h2>
 
+        {/* ✅ ID Input */}
         <div className="flex flex-col md:flex-row gap-4">
           <div className="relative w-full">
             <MdNumbers className="absolute top-3 left-3 text-gray-500" />
@@ -49,14 +64,16 @@ const DeletePaymentById = () => {
             />
           </div>
 
+          {/* ✅ Delete Button */}
           <button
             onClick={handleDelete}
-            className="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-2 rounded-md transition"
+            disabled={loading}
+            className={`bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-2 rounded-md transition flex items-center gap-2 ${
+              loading ? "opacity-50 cursor-not-allowed" : ""
+            }`}
           >
-            <div className="flex items-center gap-2">
-              <MdDelete />
-              Delete
-            </div>
+            <MdDelete />
+            {loading ? "Deleting..." : "Delete"}
           </button>
         </div>
       </div>

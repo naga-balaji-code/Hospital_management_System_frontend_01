@@ -5,17 +5,19 @@ import axiosInstance from "../axiosInstance/Instance";
 const FetchAllEncounter = () => {
   const [encounters, setEncounters] = useState([]);
 
-  const fetchAll = async () => {
+  const fetchAllEncounters = async () => {
     try {
       const res = await axiosInstance.get("/fetchAllEncounter");
 
       if (!res.data || res.data.length === 0) {
         toast.error("No encounters found.");
-      } else {
-        setEncounters(res.data);
-        toast.success("Encounters fetched successfully!");
+        return;
       }
+
+      setEncounters(res.data);
+      toast.success("Encounters fetched successfully!");
     } catch (err) {
+      console.error(err);
       toast.error("Failed to fetch encounters.");
     }
   };
@@ -29,75 +31,66 @@ const FetchAllEncounter = () => {
       }}
     >
       <Toaster position="top-center" />
-
-      <div className="bg-white bg-opacity-90 p-6 rounded-xl shadow-xl w-full max-w-7xl">
+      <div className="bg-white bg-opacity-90 p-6 rounded-xl shadow-xl w-full max-w-6xl">
         <h2 className="text-2xl font-bold text-blue-800 text-center mb-6">
           All Encounters
         </h2>
 
-        {/* Fetch Button */}
+        {/* ✅ Fetch Button */}
         <div className="flex justify-center mb-4">
           <button
-            onClick={fetchAll}
+            onClick={fetchAllEncounters}
             className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-md transition"
           >
             Fetch All Encounters
           </button>
         </div>
 
-        {/* Table */}
+        {/* ✅ Display Table */}
         {encounters.length > 0 && (
           <div className="overflow-x-auto">
-            <table className="min-w-full text-sm text-left border border-gray-300">
+            <table className="min-w-full text-sm text-left border border-gray-200">
               <thead className="bg-blue-700 text-white">
                 <tr>
-                  <th className="p-3 border">#</th>
-                  <th className="p-3 border">Type</th>
-                  <th className="p-3 border">Date</th>
-                  <th className="p-3 border">Time</th>
-                  <th className="p-3 border">Status</th>
-                  <th className="p-3 border">Patient Name</th>
-                  <th className="p-3 border">Patient Email</th>
-                  <th className="p-3 border">Patient Phone</th>
+                  <th className="p-3">#</th>
+                  <th className="p-3">Type</th>
+                  <th className="p-3">Date</th>
+                  <th className="p-3">Time</th>
+                  <th className="p-3">Status</th>
+                  <th className="p-3">Patient Name</th>
+                  <th className="p-3">Patient Email</th>
                 </tr>
               </thead>
               <tbody>
-                {encounters.map((enc, index) => (
+                {encounters.map((encounter, index) => (
                   <tr
-                    key={index}
+                    key={encounter.encounterId || index}
                     className={`${
                       index % 2 === 0 ? "bg-gray-100" : "bg-white"
                     } hover:bg-blue-50 transition`}
                   >
-                    {/* Encounter Info */}
-                    <td className="p-3 border">{index + 1}</td>
-                    <td className="p-3 border">{enc.encounterType}</td>
-                    <td className="p-3 border">{enc.encounterDate}</td>
-                    <td className="p-3 border">{enc.encounterTime}</td>
-                    <td className="p-3 border">{enc.encounterStatus}</td>
+                    <td className="p-3">{index + 1}</td>
+                    <td className="p-3">{encounter.encounterType}</td>
+                    <td className="p-3">{encounter.encounterDate}</td>
+                    <td className="p-3">{encounter.encounterTime}</td>
+                    <td className="p-3">{encounter.encounterStatus}</td>
 
-                    {/* ✅ Linked Patient Info */}
-                    <td className="p-3 border">
-                      {enc.patient?.patientName || "N/A"}
+                    {/* ✅ Show Patient details if present */}
+                    <td className="p-3">
+                      {encounter.patient
+                        ? encounter.patient.patientName
+                        : "N/A"}
                     </td>
-                    <td className="p-3 border">
-                      {enc.patient?.patientEmail || "N/A"}
-                    </td>
-                    <td className="p-3 border">
-                      {enc.patient?.patientPhone || "N/A"}
+                    <td className="p-3">
+                      {encounter.patient
+                        ? encounter.patient.patientEmail
+                        : "N/A"}
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-        )}
-
-        {/* If no encounters */}
-        {encounters.length === 0 && (
-          <p className="text-center text-gray-600 mt-4">
-            No encounters loaded yet.
-          </p>
         )}
       </div>
     </div>
